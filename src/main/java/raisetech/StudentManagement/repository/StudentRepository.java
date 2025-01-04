@@ -40,7 +40,5 @@ public interface StudentRepository {
 
   @Update("UPDATE students_courses SET course_name =#{courseName} WHERE id= #{id}")
   void updateStudentsCourses(StudentsCourses studentsCourses);
-
-
 }
 
