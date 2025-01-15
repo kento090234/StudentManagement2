@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.convert.DataSizeUnit;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentsCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -44,10 +49,10 @@ public class StudentController {
    *
    * @return 受講生詳細一覧（全件）
    */
-  @GetMapping("/studentList")
-  public List<StudentDetail>getStudentList() {
-    return service.searchStudentList();
-  }
+// @GetMapping("/studentList")
+//  public List<StudentDetail>getStudentList() {
+//     return service.searchStudentList();
+//  }
 
   /**
    * 受講生詳細検索です。IDに紐づく任意の受講生の情報を取得します。
@@ -56,7 +61,8 @@ public class StudentController {
    * @return 受講生詳細
    */
   @GetMapping("/student/{id}")
-  public StudentDetail getStudent(@PathVariable @Size (min = 1, max = 3) String id) {
+  public StudentDetail getStudent(
+         @PathVariable @NotBlank @Pattern(regexp = "^\\d+$") String id) {
     return service.searchStudent(id);
   }
 
@@ -67,7 +73,7 @@ public class StudentController {
    * @return　実行結果
    */
   @PostMapping("/registerStudent")
-  public ResponseEntity<StudentDetail> registerStudent(@RequestBody  StudentDetail studentDetail) {
+  public ResponseEntity<StudentDetail> registerStudent(@RequestBody @Valid StudentDetail studentDetail) {
    StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok( responseStudentDetail);
   }
@@ -89,4 +95,12 @@ public class StudentController {
     // JSON 形式で返却
     return ResponseEntity.ok(response);
   }
+
+  @GetMapping("/test")
+List<StudentDetail> getStudentList() throws TestException {
+    throw new TestException(
+            "現在このAPIは利用できません。URLは「studentList」ではなく「students」を利用してください。"
+    );
 }
+  }
+
