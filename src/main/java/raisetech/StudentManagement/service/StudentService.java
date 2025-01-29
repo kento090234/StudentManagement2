@@ -63,6 +63,7 @@ public class StudentService {
     repository.registerStudent(student);
       studentDetail.getStudentsCourseList().forEach(studentsCourse -> {
         initStudentsCourse(studentsCourse, student.getId());
+        repository.registerStudentsCourses(studentsCourse);
       });
     return studentDetail;
   }
@@ -79,7 +80,7 @@ public class StudentService {
     studentsCourse.setStudentId(id);
     studentsCourse.setCourseStartAt(now);
     studentsCourse.setCourseEndAt(now.plusYears(1));
-    repository.registerStudentsCourses(studentsCourse);
+
   }
 
   /**
