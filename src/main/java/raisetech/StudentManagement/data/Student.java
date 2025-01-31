@@ -26,10 +26,10 @@ public class Student {
   private String nickname;
 
   @NotBlank
+  @Email
   private String email;
 
   @NotBlank
-  @Email
   private String area;
 
 

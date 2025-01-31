@@ -9,7 +9,7 @@ import lombok.Setter;
 @Schema(description = "受講生コース情報")
 @Getter
 @Setter
-public class StudentsCourses {
+public class StudentCourses {
   private String id;
   private String studentId;
   private String courseName;

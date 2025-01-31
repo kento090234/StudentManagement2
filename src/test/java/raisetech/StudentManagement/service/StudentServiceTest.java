@@ -1,6 +1,5 @@
 package raisetech.StudentManagement.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.data.StudentCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
@@ -42,7 +41,7 @@ class StudentServiceTest {
     void 受講生詳細の一覧検索＿リポジトリとコンバーターの処理が適切に呼び出せていること() {
 
         List<Student> studentList = new ArrayList<>();
-        List<StudentsCourses> studentsCoursesList = new ArrayList<>();
+        List<StudentCourses> studentsCoursesList = new ArrayList<>();
         Mockito.when(repository.search()).thenReturn(studentList);
         Mockito.when(repository.searchStudentCoursesList()).thenReturn(studentsCoursesList);
 
@@ -72,8 +71,8 @@ class StudentServiceTest {
     @Test
      void 受講生詳細の登録＿リポジトリの処理が適切に呼び出せていること() {
         Student student = new Student();
-        StudentsCourses studentsCourses = new StudentsCourses();
-        List<StudentsCourses> studentsCoursesList = List.of(studentsCourses);
+        StudentCourses studentsCourses = new StudentCourses();
+        List<StudentCourses> studentsCoursesList = List.of(studentsCourses);
         StudentDetail studentDetail = new StudentDetail(student, studentsCoursesList);
 
         sut.registerStudent(studentDetail);
@@ -87,7 +86,7 @@ class StudentServiceTest {
      String id ="999";
      Student student = new Student();
      student.setId(id);
-     StudentsCourses studentsCourses = new StudentsCourses();
+     StudentCourses studentsCourses = new StudentCourses();
 
      sut.initStudentsCourse(studentsCourses, student.getId());
 
@@ -100,8 +99,8 @@ class StudentServiceTest {
     @Test
     void 受講生詳細の更新＿リポジトリの処理が適切に呼び出せていること(){
         Student student = new Student();
-        StudentsCourses studentsCourses = new StudentsCourses();
-        List<StudentsCourses> studentsCoursesList = List.of(studentsCourses);
+        StudentCourses studentsCourses = new StudentCourses();
+        List<StudentCourses> studentsCoursesList = List.of(studentsCourses);
         StudentDetail studentDetail = new StudentDetail(student, studentsCoursesList);
 
         sut.updateStudent(studentDetail);
@@ -111,18 +110,6 @@ class StudentServiceTest {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
