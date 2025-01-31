@@ -2,14 +2,16 @@ package raisetech.StudentManagement.domain;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.data.StudentCourses;
 
+@Schema(description = "受講生詳細")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,5 +22,5 @@ public class StudentDetail {
   private Student student;
 
   @Valid
-  private List<StudentsCourses> studentsCourseList;
+  private List<StudentCourses> studentsCourseList;
 }

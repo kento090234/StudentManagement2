@@ -1,28 +1,18 @@
 package raisetech.StudentManagement.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.convert.DataSizeUnit;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentsCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
-import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -49,10 +39,11 @@ public class StudentController {
    *
    * @return 受講生詳細一覧（全件）
    */
-// @GetMapping("/studentList")
-//  public List<StudentDetail>getStudentList() {
-//     return service.searchStudentList();
-//  }
+@Operation(summary = "一覧検索", description ="受講生の一覧検索します。" )
+@GetMapping("/studentList")
+  public List<StudentDetail>getStudentList() {
+     return service.searchStudentList();
+  }
 
   /**
    * 受講生詳細検索です。IDに紐づく任意の受講生の情報を取得します。
@@ -60,6 +51,7 @@ public class StudentController {
    * @param  id　受講生ID
    * @return 受講生詳細
    */
+  @Operation(summary = "受講生ID",description = "受講生のIDで受講生を検索します。")
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(
          @PathVariable @NotBlank @Pattern(regexp = "^\\d+$") String id) {
@@ -72,6 +64,7 @@ public class StudentController {
    * @param studentDetail　受講生詳細
    * @return　実行結果
    */
+  @Operation(summary = "受講生登録",description = "受講生を登録します。")
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(@RequestBody @Valid StudentDetail studentDetail) {
    StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
@@ -84,6 +77,7 @@ public class StudentController {
    * @param studentDetail　受講生詳細
    * @return　実行結果
    */
+  @Operation(summary = "受講生更新",description = "受講生を登録します。")
   @PutMapping("/updateStudent")
   public ResponseEntity<Map<String, String>> updateStudent(@RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
@@ -95,12 +89,28 @@ public class StudentController {
     // JSON 形式で返却
     return ResponseEntity.ok(response);
   }
+  //@GetMapping("/test")
+//List<StudentDetail> getStudentList() throws TestException {
+  //  throw new TestException(
+    //        "現在このAPIは利用できません。URLは「studentList」ではなく「students」を利用してください。"
+    //);
 
-  @GetMapping("/test")
-List<StudentDetail> getStudentList() throws TestException {
-    throw new TestException(
-            "現在このAPIは利用できません。URLは「studentList」ではなく「students」を利用してください。"
-    );
-}
+  @RestControllerAdvice
+  public class GlobalExceptionHandler {
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+      return ResponseEntity.badRequest().body(ex.getMessage());
+    }
   }
+
+
+    @GetMapping("/exception")
+    public ResponseEntity<String> exceptionApi() {
+      throw new IllegalArgumentException("このAPIは現在利用できません。古いURLとなっています。");
+    }
+  }
+
+
+
 

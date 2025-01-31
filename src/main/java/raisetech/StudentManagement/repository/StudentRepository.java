@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.data.StudentCourses;
 
 /**
  * 受講生テーブルと受講生コース情報テーブルと紐づくRepositoryです。
@@ -38,7 +38,7 @@ public interface StudentRepository {
    * @return　受講生のコース情報（全件）
    */
   @Select("SELECT * FROM students_courses")
-  List<StudentsCourses> searchStudentCoursesList();
+  List<StudentCourses> searchStudentCoursesList();
 
   /**
    * 受講生IDに紐づく受講生コース情報を検索します。
@@ -47,7 +47,7 @@ public interface StudentRepository {
    * @return　受講生IDに紐づく受講生コース情報
    */
   @Select("SELECT * FROM students_courses WHERE student_id = #{studentId}")
-  List<StudentsCourses> searchStudentsCourses(String studentId);
+  List<StudentCourses> searchStudentsCourses(String studentId);
 
   /**
    * 受講生を新規登録します。　IDに関しては自動採番を行う。
@@ -67,7 +67,7 @@ public interface StudentRepository {
   @Insert("INSERT INTO students_courses(student_id, course_name, course_start_at, course_end_at) "
       + "VALUES(#{studentId}, #{courseName}, #{courseStartAt}, #{courseEndAt})")
   @Options(useGeneratedKeys = true, keyProperty = "id")
-  void registerStudentsCourses(StudentsCourses studentsCourses);
+  void registerStudentsCourses(StudentCourses studentsCourses);
 
   /**
    * 受講生を更新します。
@@ -84,6 +84,6 @@ public interface StudentRepository {
    * @param studentsCourses　受講生コース情報
    */
   @Update("UPDATE students_courses SET course_name =#{courseName} WHERE id= #{id}")
-  void updateStudentsCourses(StudentsCourses studentsCourses);
+  void updateStudentsCourses(StudentCourses studentsCourses);
 }
 
