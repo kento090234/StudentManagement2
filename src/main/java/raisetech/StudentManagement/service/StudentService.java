@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
-import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.data.StudentCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
@@ -34,7 +34,7 @@ public class StudentService {
    */
   public List<StudentDetail> searchStudentList() {
     List<Student> studentList = repository.search();
-    List<StudentsCourses> studentsCoursesList = repository.searchStudentCoursesList();
+    List<StudentCourses> studentsCoursesList = repository.searchStudentCoursesList();
     return converter.convertStudentDetails(studentList, studentsCoursesList);
   }
 
@@ -46,7 +46,7 @@ public class StudentService {
    */
   public StudentDetail searchStudent(String id){
     Student student = repository.searchStudent(id);
-    List<StudentsCourses> studentsCourses = repository.searchStudentsCourses(student.getId());
+    List<StudentCourses> studentsCourses = repository.searchStudentsCourses(student.getId());
     return new StudentDetail(student, studentsCourses);
   }
 
@@ -62,7 +62,7 @@ public class StudentService {
     
     repository.registerStudent(student);
       studentDetail.getStudentsCourseList().forEach(studentsCourse -> {
-        initStudentsCourse(studentsCourse, student);
+        initStudentsCourse(studentsCourse, student.getId());
       });
     return studentDetail;
   }
@@ -71,12 +71,12 @@ public class StudentService {
    * 受講生コース情報を登録する際に初期情報を設定する。
    *
    * @param studentsCourse　受講生コース情報
-   * @param student　受講生
+   *
    */
-  private void initStudentsCourse(StudentsCourses studentsCourse, Student student) {
+   void initStudentsCourse(StudentCourses studentsCourse, String id) {
     LocalDateTime now = LocalDateTime.now();
 
-    studentsCourse.setStudentId(student.getId());
+    studentsCourse.setStudentId(id);
     studentsCourse.setCourseStartAt(now);
     studentsCourse.setCourseEndAt(now.plusYears(1));
     repository.registerStudentsCourses(studentsCourse);
