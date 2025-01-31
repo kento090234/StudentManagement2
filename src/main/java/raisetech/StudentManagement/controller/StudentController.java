@@ -104,7 +104,6 @@ public class StudentController {
     }
   }
 
-
     @GetMapping("/exception")
     public ResponseEntity<String> exceptionApi() {
       throw new IllegalArgumentException("このAPIは現在利用できません。古いURLとなっています。");

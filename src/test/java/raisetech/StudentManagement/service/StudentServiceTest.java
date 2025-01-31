@@ -108,7 +108,6 @@ class StudentServiceTest {
         Mockito.verify(repository, times(1)).updateStudent(student);
         Mockito.verify(repository, times(1)).updateStudentsCourses(studentsCourses);
 
-
     }
 }
 
